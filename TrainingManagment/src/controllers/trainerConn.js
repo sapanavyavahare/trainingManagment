@@ -1,107 +1,108 @@
-const { getTrainer , getTrainerById , createTrainer , deleteTrainer ,updateTrainer } = require('../services/trainerService');
-const {uploadFile , readFile , getS3URL , readField } = require('../middlewares/trainerImage');
-const multer = require('multer');
-const upload = multer({
-    dest:'images'
-})
-const formidable = require('formidable');
-//getTrainer
-  function getTrainers(req,res)
-{
-    try{
-        console.log("in conn");
+const { sendSuccessRsp, sendErrorRsp } = require('api-rsp');
 
-         getTrainer().then((result)=>{
-             console.log("result in controller ",result);
-            res.status(200).send({"success":true,"Users":result});
-         }).catch((err)=>{
-            res.status(404).send(err)
-         });
-       } catch(err){
-        res.status(500).send(err.stack);
+const helper = require('../middlewares/trainerImage');
+const { TrainerService } = require('../services');
+const { TrainerSchema } = require('../validation-schema');
+const trainerService = new TrainerService();
+const trainerSchema = new TrainerSchema();
+
+class TrainerController {
+    //getTrainer
+    async getTrainers(req, res) {
+        try {
+            console.log('in conn');
+
+            const result = await trainerService.getTrainer();
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            console.error('Error in get trainer :: ', err);
+            return sendErrorRsp(res, {
+                code: 'GET_TRAINER_FAILED',
+                message: 'Unable to get trainer failed',
+                httpCode: 500,
+            });
+        }
     }
 
-}
-  
-//get trainer by id 
+    //get trainer by id
 
-function getTrainersById(req,res)
-{
-    try{
-        console.log("id in conn ", req.params.id);
-         getTrainerById(req.params.id).then((result)=>{
-             console.log("result in controller ",result);
-            res.status(200).send({"success":true,"Users":result});
-         }).catch((err)=>{
-            res.status(404).send(err)
-         });
-       } catch(err){
-        res.status(500).send(err.stack);
+    async getTrainersById(req, res) {
+        try {
+            console.log('id in conn ', req.params.id);
+            const result = await trainerService.getTrainerById(req.params.id);
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
     }
 
-}
-
-async function signUp(req,res)
-{
-    try{
-        //console.log('fields in conn',req.body);
-        //console.log("file2",req.file);
-        const fileName = (req.file.originalname).toString();
-        const filePath = (req.file.path).toString();
-        const ans = await uploadFile(filePath,fileName);
-        console.log("ans ",ans);
-        const URL = await getS3URL(fileName);
-       // console.log("ans2",URL);
-        var newUrl = URL.toString().split('?');
-        createTrainer(req.body,newUrl[0]).then((result)=>{
-             console.log("result in controller ",result);
-            res.status(200).send({"success":true,"Users":result});
-         }).catch((err)=>{
-            res.status(404).send(err)
-         });
-       } catch(err){
-        res.status(500).send(err.stack);
+    async signUp(req, res) {
+        const trainerData = req.body;
+        try {
+            const { isValid, errors } = trainerSchema.validateApi(
+                trainerData,
+                trainerSchema.createSchema()
+            );
+            if (!isValid) {
+                return sendErrorRsp(res, {
+                    code: 'INVALID_REQUEST',
+                    message: 'Invalid request data received',
+                    httpCode: 400,
+                    error: errors,
+                });
+            }
+            const fileName = req.file.originalname.toString();
+            const filePath = req.file.path.toString();
+            const ans = await helper.uploadFile(filePath, fileName);
+            console.log('ans ', ans);
+            const URL = await helper.getS3URL(fileName);
+            var newUrl = URL.toString().split('?');
+            const result = await trainerService.createTrainer(
+                req.body,
+                newUrl[0]
+            );
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            console.error('Error in create trainer :: ', err);
+            return sendErrorRsp(res, {
+                code: 'CREATE_TRAINER_FAILED',
+                message: 'Unable to create trainer failed',
+                httpCode: 500,
+            });
+        }
     }
 
-}
-function trainerDelete(req,res)
-{
-    try{
-        console.log("id in conn ", req.params.id);
-         deleteTrainer(req.params.id).then((result)=>{
-             console.log("result in controller ",result);
-            res.status(200).send({"success":true,"Users":result});
-         }).catch((err)=>{
-            res.status(404).send(err)
-         });
-       } catch(err){
-        res.status(500).send(err.stack);
+    //delete trainer
+    async trainerDelete(req, res) {
+        try {
+            console.log('id in conn ', req.params.id);
+            const result = await trainerService.deleteTrainer(req.params.id);
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            console.error('Error in delete trainer :: ', err);
+            return sendErrorRsp(res, {
+                code: 'DELETED_TRAINER_FAILED',
+                message: 'Unable to delete trainer failed',
+                httpCode: 500,
+            });
+        }
     }
 
-}
-
-//updatetrainer
-function trainerUpdate(req,res)
-{
-    try{
-        console.log("id in conn ", req.params.id);
-         updateTrainer(req).then((result)=>{
-             console.log("result in controller ",result);
-            res.status(200).send({"success":true,"Users":result});
-         }).catch((err)=>{
-            res.status(404).send(err)
-         });
-       } catch(err){
-        res.status(500).send(err.stack);
+    //updatetrainer
+    async trainerUpdate(req, res) {
+        try {
+            console.log('id in conn ', req.params.id);
+            const result = await trainerService.updateTrainer(req);
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            console.error('Error in update trainer :: ', err);
+            return sendErrorRsp(res, {
+                code: 'UPDATE_TRAINER_FAILED',
+                message: 'Unable to update trainer failed',
+                httpCode: 500,
+            });
+        }
     }
-
 }
- 
 
-function dummy(req,res){
-    console.log("file",req.body);
-    console.log("file2",req.file);
-}
- 
-
-module.exports = { getTrainers , getTrainersById , signUp , trainerDelete , trainerUpdate, dummy}
+module.exports = TrainerController;
