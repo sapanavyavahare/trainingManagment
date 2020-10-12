@@ -23,7 +23,7 @@ var upload = multer({ storage: storage });
 router.get('', trainerController.getTrainers);
 router.get('/:id', trainerController.getTrainersById);
 router.post('', upload.single('file'), trainerController.signUp);
-router.put('/:id', trainerController.trainerUpdate);
+router.put('/:id', upload.single('file'),trainerController.trainerUpdate);
 router.delete('/:id', trainerController.trainerDelete);
 
 module.exports = router;

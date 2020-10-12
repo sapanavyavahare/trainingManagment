@@ -5,3 +5,8 @@
 
 # imagefolder
 /uploads
+
+#scanner file
+/.scannerwork
+
+/coverage

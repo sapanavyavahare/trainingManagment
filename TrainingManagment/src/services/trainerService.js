@@ -32,31 +32,30 @@ class TrainerService {
     }
 
     //update trainer
-    updateTrainer = (req) => {
-        return new Promise(async (res, rej) => {
-            await Trainer.update(
-                { trainer_email: req.body.trainer_email },
-                {
-                    where: {
-                        id: req.params.id,
-                        is_active: true,
-                    },
-                }
-            )
-                .then((trainer) => {
-                    console.log('trainer', trainer);
-                    res(trainer);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    rej(err);
-                });
-        });
-    };
+    async updateTrainer(id, dbData, url) {
+        const result = await Trainer.update(
+            {
+                trainer_name: dbData.trainer_name,
+                trainer_email: dbData.trainer_email,
+                trainer_phone: dbData.trainer_phone,
+                trainer_address: dbData.trainer_address,
+                trainer_photo_url: url,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                where: {
+                    id: id,
+                    is_active: true,
+                },
+            }
+        );
+        return successObject({ result: result });
+    }
 
     //deleting trainer by id
     async deleteTrainer(id) {
-        const result = await await Trainer.update(
+        const result = await Trainer.update(
             { is_active: false },
             {
                 where: {

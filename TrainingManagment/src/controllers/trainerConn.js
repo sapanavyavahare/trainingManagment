@@ -90,18 +90,41 @@ class TrainerController {
 
     //updatetrainer
     async trainerUpdate(req, res) {
+        const trainerData = req.body;
+        console.log("trainerdata",trainerData);
         try {
-            console.log('id in conn ', req.params.id);
-            const result = await trainerService.updateTrainer(req);
+            const { isValid, errors } = trainerSchema.validateApi(
+                trainerData,
+                trainerSchema.createSchema()
+            );
+            if (!isValid) {
+                return sendErrorRsp(res, {
+                    code: 'INVALID_REQUEST',
+                    message: 'Invalid request data received',
+                    httpCode: 400,
+                    error: errors,
+                });
+            }
+            const fileName = req.file.originalname.toString();
+            const filePath = req.file.path.toString();
+            const ans = await helper.uploadFile(filePath, fileName);
+            console.log('ans ', ans);
+            const URL = await helper.getS3URL(fileName);
+            var newUrl = URL.toString().split('?');
+            const result = await trainerService.updateTrainer(req.params.id,
+                req.body,
+                newUrl[0]
+            );
             return sendSuccessRsp(res, result);
         } catch (err) {
-            console.error('Error in update trainer :: ', err);
+            console.error('Error in create trainer :: ', err);
             return sendErrorRsp(res, {
-                code: 'UPDATE_TRAINER_FAILED',
-                message: 'Unable to update trainer failed',
-                httpCode: 500,
+                code: 'CREATE_TRAINER_FAILED',
+                message: 'Unable to create trainer failed',
+                httpCode: 500
             });
         }
+   
     }
 }
 

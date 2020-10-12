@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">26.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/20</span>
+                <span class='fraction'>4/15</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">26.67% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/20</span>
+                <span class='fraction'>4/15</span>
             </div>
         
             
@@ -128,8 +128,7 @@
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -163,26 +162,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -235,31 +233,30 @@ class TrainerService {
     }
 &nbsp;
     //update trainer
-    updateTrainer = <span class="fstat-no" title="function not covered" >(r</span>eq) =&gt; {
-<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >as</span>ync (res, rej) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            await Trainer.update(</span>
-                { trainer_email: req.body.trainer_email },
-                {
-                    where: {
-                        id: req.params.id,
-                        is_active: true,
-                    },
-                }
-            )
-                .then(<span class="fstat-no" title="function not covered" >(t</span>rainer) =&gt; {
-<span class="cstat-no" title="statement not covered" >                    console.log('trainer', trainer);</span>
-<span class="cstat-no" title="statement not covered" >                    res(trainer);</span>
-                })
-                .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >                    console.log(err);</span>
-<span class="cstat-no" title="statement not covered" >                    rej(err);</span>
-                });
-        });
-    };
+<span class="fstat-no" title="function not covered" >    as</span>ync updateTrainer(id, dbData, url) {
+        const result = <span class="cstat-no" title="statement not covered" >await Trainer.update(</span>
+            {
+                trainer_name: dbData.trainer_name,
+                trainer_email: dbData.trainer_email,
+                trainer_phone: dbData.trainer_phone,
+                trainer_address: dbData.trainer_address,
+                trainer_photo_url: url,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                where: {
+                    id: id,
+                    is_active: true,
+                },
+            }
+        );
+<span class="cstat-no" title="statement not covered" >        return successObject({ result: result });</span>
+    }
 &nbsp;
     //deleting trainer by id
 <span class="fstat-no" title="function not covered" >    as</span>ync deleteTrainer(id) {
-        const result = <span class="cstat-no" title="statement not covered" >await await Trainer.update(</span>
+        const result = <span class="cstat-no" title="statement not covered" >await Trainer.update(</span>
             { is_active: false },
             {
                 where: {
@@ -280,7 +277,7 @@ module.exports = TrainerService;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Oct 09 2020 13:18:15 GMT+0530 (India Standard Time)
+                at Mon Oct 12 2020 18:07:58 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
