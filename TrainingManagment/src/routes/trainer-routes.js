@@ -4,7 +4,10 @@ const multer = require('multer');
 const fs = require('fs');
 
 const { TrainerController } = require('../controllers');
+const { TrainerSchema } = require('../validation-schema');
+
 const trainerController = new TrainerController();
+const trainerSchema = new TrainerSchema();
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -23,7 +26,7 @@ var upload = multer({ storage: storage });
 router.get('', trainerController.getTrainers);
 router.get('/:id', trainerController.getTrainersById);
 router.post('', upload.single('file'), trainerController.signUp);
-router.put('/:id', upload.single('file'),trainerController.trainerUpdate);
+router.put('/:id', upload.single('file'), trainerController.trainerUpdate);
 router.delete('/:id', trainerController.trainerDelete);
 
 module.exports = router;

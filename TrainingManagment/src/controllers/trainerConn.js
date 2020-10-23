@@ -1,4 +1,4 @@
-const { sendSuccessRsp, sendErrorRsp } = require('api-rsp');
+const { sendSuccessRsp, sendErrorRsp, successObject } = require('api-rsp');
 
 const helper = require('../middlewares/trainerImage');
 const { TrainerService } = require('../services');
@@ -91,27 +91,16 @@ class TrainerController {
     //updatetrainer
     async trainerUpdate(req, res) {
         const trainerData = req.body;
-        console.log("trainerdata",trainerData);
+        console.log('trainerdata', trainerData);
         try {
-            const { isValid, errors } = trainerSchema.validateApi(
-                trainerData,
-                trainerSchema.createSchema()
-            );
-            if (!isValid) {
-                return sendErrorRsp(res, {
-                    code: 'INVALID_REQUEST',
-                    message: 'Invalid request data received',
-                    httpCode: 400,
-                    error: errors,
-                });
-            }
             const fileName = req.file.originalname.toString();
             const filePath = req.file.path.toString();
             const ans = await helper.uploadFile(filePath, fileName);
             console.log('ans ', ans);
             const URL = await helper.getS3URL(fileName);
             var newUrl = URL.toString().split('?');
-            const result = await trainerService.updateTrainer(req.params.id,
+            const result = await trainerService.updateTrainer(
+                req.params.id,
                 req.body,
                 newUrl[0]
             );
@@ -121,11 +110,27 @@ class TrainerController {
             return sendErrorRsp(res, {
                 code: 'CREATE_TRAINER_FAILED',
                 message: 'Unable to create trainer failed',
-                httpCode: 500
+                httpCode: 500,
             });
         }
-   
     }
+
+    // validateinput(trainerData) {
+    //     const { isValid, errors } = trainerSchema.validateApi(
+    //         trainerData,
+    //         trainerSchema.createSchema()
+    //     );
+    //     if (!isValid) {
+    //         return sendErrorRsp(res, {
+    //             code: 'INVALID_REQUEST',
+    //             message: 'Invalid request data received',
+    //             httpCode: 400,
+    //             error: errors,
+    //         });
+    //     } else {
+    //         return successObject;
+    //     }
+    // }
 }
 
 module.exports = TrainerController;

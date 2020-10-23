@@ -34,8 +34,11 @@
             "reportFile": "test-report.xml",
             "indent": 4
         },
-        "test": "cross-env NODE_ENV=test jest --coverage --runInBand",
-        "start": "nodemon ./bin/www ./src/ "
+        "test": "cross-env NODE_ENV=test jest --coverage --runInBand  --detectOpenHandles",
+        "start": "nodemon ./bin/www ./src/ ",
+        "migrate": "npx sequelize-cli db:migrate",
+        "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+        "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
     },
     "author": "",
     "license": "ISC",

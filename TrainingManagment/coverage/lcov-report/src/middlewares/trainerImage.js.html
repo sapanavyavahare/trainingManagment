@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">95% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/20</span>
+                <span class='fraction'>19/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.58% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/19</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -105,31 +105,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,19 +144,19 @@ const s3_bucket = 'training-managent-bucket-sapna'
 const fs = require('fs');
 &nbsp;
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >uploadFile(</span>formatedFile,fileName) {
-<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>es,rej)=&gt;{</span>
+async function uploadFile(formatedFile,fileName) {
+    return new Promise((res,rej)=&gt;{
    // console.log("in upload");
-    const fileContent = <span class="cstat-no" title="statement not covered" >fs.readFileSync(formatedFile);</span>
-    let params = <span class="cstat-no" title="statement not covered" >{ Body: fileContent, Bucket: s3_bucket, Key: fileName };</span>
-<span class="cstat-no" title="statement not covered" >    s3.upload(</span>
+    const fileContent = fs.readFileSync(formatedFile);
+    let params = { Body: fileContent, Bucket: s3_bucket, Key: fileName };
+    s3.upload(
         params,
-<span class="fstat-no" title="function not covered" >        fu</span>nction(err, data) {
-<span class="cstat-no" title="statement not covered" >          console.log(err, data);</span>
-<span class="cstat-no" title="statement not covered" >          if(err) <span class="cstat-no" title="statement not covered" >rej(err);</span></span>
+        function(err, data) {
+          console.log(err, data);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if(err) <span class="cstat-no" title="statement not covered" >rej(err);</span>
           else{
-<span class="cstat-no" title="statement not covered" >              console.log("data from upload file ",data);</span>
-<span class="cstat-no" title="statement not covered" >              res(data);</span>
+              console.log("data from upload file ",data);
+              res(data);
           }
          
     });
@@ -164,12 +164,12 @@ async function <span class="fstat-no" title="function not covered" >uploadFile(<
 }
 &nbsp;
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >getS3URL(</span>fileName){
-<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>es,rej)=&gt;{</span>
-<span class="cstat-no" title="statement not covered" >        console.log("file name "+fileName);</span>
-        var params = <span class="cstat-no" title="statement not covered" >{Bucket:s3_bucket,Key:fileName}</span>
-        var URL = <span class="cstat-no" title="statement not covered" >s3.getSignedUrl('getObject',params); </span>
-<span class="cstat-no" title="statement not covered" >        res(URL);</span>
+async function getS3URL(fileName){
+    return new Promise((res,rej)=&gt;{
+        console.log("file name "+fileName);
+        var params = {Bucket:s3_bucket,Key:fileName}
+        var URL = s3.getSignedUrl('getObject',params); 
+        res(URL);
     })
     
    
@@ -184,7 +184,7 @@ module.exports = {uploadFile ,  getS3URL }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 12 2020 18:07:58 GMT+0530 (India Standard Time)
+                at Mon Oct 19 2020 14:52:21 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
