@@ -1,4 +1,5 @@
 const { sendSuccessRsp, sendErrorRsp, successObject } = require('api-rsp');
+const jwt = require('jsonwebtoken');
 
 const helper = require('../middlewares/trainerImage');
 const { TrainerService } = require('../services');
@@ -58,7 +59,7 @@ class TrainerController {
             const URL = await helper.getS3URL(fileName);
             var newUrl = URL.toString().split('?');
             const result = await trainerService.createTrainer(
-                req.body,
+                trainerData,
                 newUrl[0]
             );
             return sendSuccessRsp(res, result);
@@ -114,23 +115,107 @@ class TrainerController {
             });
         }
     }
+    async addTrainer(req, res) {
+        try {
+            console.log('id in conn ', req.body);
+            const fileName = req.file.originalname.toString();
+            const filePath = req.file.path.toString();
+            const ans = await helper.uploadFile(filePath, fileName);
+            console.log('ans ', ans);
+            const URL = await helper.getS3URL(fileName);
+            var newUrl = URL.toString().split('?');
+            const result = await trainerService.createTrainer(
+                req.body,
+                newUrl[0]
+            );
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
 
-    // validateinput(trainerData) {
-    //     const { isValid, errors } = trainerSchema.validateApi(
-    //         trainerData,
-    //         trainerSchema.createSchema()
-    //     );
-    //     if (!isValid) {
-    //         return sendErrorRsp(res, {
-    //             code: 'INVALID_REQUEST',
-    //             message: 'Invalid request data received',
-    //             httpCode: 400,
-    //             error: errors,
-    //         });
-    //     } else {
-    //         return successObject;
-    //     }
-    // }
+    async getTrainerBYTopic(req, res) {
+        try {
+            console.log('id in conn ', req.params.id);
+            const result = await trainerService.getTrainerByTopic(
+                req.params.id
+            );
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
+
+    async getTrainerSchedules(req, res) {
+        try {
+            console.log('id in conn ', req.body);
+            const result = await trainerService.getTrainerSchedule(
+                req.params.id
+            );
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
+    async getFreeTrainers(req, res) {
+        try {
+            console.log('id in conn ', req.body);
+            const result = await trainerService.getAvailableTrainer(
+                req.params.id,
+                req.body.startDate,
+                req.body.endDate
+            );
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
+
+    async getFreeTrainersForTopic(req, res) {
+        try {
+            console.log('id in conn ', req.body);
+            const result = await trainerService.getAvailableTrainerForTopic(
+                req.params.id,
+                req.body.startDate,
+                req.body.endDate
+            );
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
+
+    async signUpTrainingProgram(req, res) {
+        try {
+            console.log('id in conn ', req.body);
+            const result = await trainerService.createTrainingProgram(req.body);
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
+
+    async trainerStatistics(req, res) {
+        try {
+            console.log('id in conn ', req.params.id);
+            const result = await trainerService.getTrainerStatistics(
+                req.body,
+                req.params.id
+            );
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
+
+    async trainingList(req, res) {
+        try {
+            const result = await trainerService.getTrainingList(req.body);
+            return sendSuccessRsp(res, result);
+        } catch (err) {
+            res.status(500).send(err.stack);
+        }
+    }
 }
 
 module.exports = TrainerController;

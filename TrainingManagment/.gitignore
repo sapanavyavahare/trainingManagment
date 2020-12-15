@@ -1,12 +1,10 @@
 /node_modules
 
-# unit test file
-/unitsTests
+
 
 # imagefolder
 /uploads
 
-#scanner file
-/.scannerwork
+
 
 /coverage

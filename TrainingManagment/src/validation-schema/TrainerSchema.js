@@ -17,6 +17,7 @@ class TrainerSchema extends BaseSchema {
             trainer_email: Joi.string().trim().required(),
             trainer_phone: Joi.string().trim().required().min(10),
             trainer_address: Joi.string().trim().required(),
+            topic_id: Joi.string().trim(),
         });
     }
 }

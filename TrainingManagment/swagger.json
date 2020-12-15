@@ -1,0 +1,670 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "My User Project CRUD",
+        "description": "My User Project Application API"
+    },
+
+    "servers": [
+        {
+            "url": "http://localhost:3000/api/v1.0",
+            "description": "Local server"
+        }
+    ],
+
+    "tags": [
+        {
+            "name": "Trainers",
+            "description": "API for trainers in the system"
+        }
+    ],
+
+    "paths": {
+        "/trainers": {
+            "get": {
+                "tags": ["Trainers"],
+                "summary": "Get all trainers in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+
+            "post": {
+                "tags": ["Trainers"],
+                "summary": "create new trainer in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": "multipart/form-data",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "trainer_name": {
+                                        "type": "string"
+                                    },
+                                    "trainer_email": {
+                                        "type": "string"
+                                    },
+                                    "trainer_phone": {
+                                        "type": "string"
+                                    },
+                                    "trainer_address": {
+                                        "type": "string"
+                                    },
+
+                                    "topic_id": {
+                                        "type": "integer"
+                                    },
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "new  trainer created successfully"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/trainers/{id}": {
+            "get": {
+                "tags": ["Trainers"],
+                "summary": "Get perticular trainers in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "trainer id"
+                    }
+                ],
+
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Trainers"],
+                "summary": "delete perticular trainers in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer",
+                        "description": "trainer id"
+                    }
+                ],
+
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Trainers"],
+                "summary": "update trainer in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": "multipart/form-data",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "integer",
+                        "description": "trainer id"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "trainer_name": {
+                                        "type": "string"
+                                    },
+                                    "trainer_email": {
+                                        "type": "string"
+                                    },
+                                    "trainer_phone": {
+                                        "type": "string"
+                                    },
+                                    "trainer_address": {
+                                        "type": "string"
+                                    },
+
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "  trainer updated successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/trainerStatistics/{id}": {
+            "post": {
+                "tags": ["Trainers"],
+                "summary": "update trainer in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": "multipart/form-data",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "integer",
+                        "description": "trainer id"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "startDate": {
+                                        "type": "string",
+                                        "description": "start date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-12-2"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "description": "end date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-12-3"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": " get  trainer statictics  successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/trainerSchedule/{id}": {
+            "get": {
+                "tags": ["Trainers"],
+                "summary": "get  trainer schedule  in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "integer",
+                        "description": "trainer id"
+                    }
+                ],
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": " get  trainer schedule  successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/trainersByTopic/{id}": {
+            "get": {
+                "tags": ["Trainers"],
+                "summary": "get  trainer for perticular topic  in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "integer",
+                        "description": "topic id"
+                    }
+                ],
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "get  trainer  successfully for perticular topic"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/trainerAvaliableForTopic/{id}": {
+            "post": {
+                "tags": ["Trainers"],
+                "summary": "get available trainer for perticular topic  in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "integer",
+                        "description": "topic id"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "startDate": {
+                                        "type": "string",
+                                        "description": "start date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-20"
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "description": "end date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-30"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": " get  available trainer  successfully for perticular topic"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/trainerAvaliable/{id}": {
+            "post": {
+                "tags": ["Trainers"],
+                "summary": "get available tariner trainer in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": "multipart/form-data",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "integer",
+                        "description": "topic id"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "startDate": {
+                                        "type": "string",
+                                        "description": "start date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-20 "
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "description": "end date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-30"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": " get avaliable trainer   successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/trainingList": {
+            "post": {
+                "tags": ["Trainers"],
+                "summary": "get trainer list in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "consumes": "multipart/form-data",
+
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "startDate": {
+                                        "type": "string",
+                                        "description": "start date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-20 "
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "description": "end date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-30"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": " get  training list  successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/trainingProgram": {
+            "post": {
+                "tags": ["Trainers"],
+                "summary": "create new trainer in system",
+                "x-amazon-apigateway-auth": {
+                    "type": "NONE"
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "startDate": {
+                                        "type": "string",
+                                        "description": "start date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-20 "
+                                    },
+                                    "endDate": {
+                                        "type": "string",
+                                        "description": "end date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-20 "
+                                    },
+                                    "trainer_id": {
+                                        "type": "integer",
+                                        "description": "trainer id"
+                                    },
+                                    "topic_id": {
+                                        "type": "integer",
+                                        "description": "topic id"
+                                    },
+                                    "regStartDate": {
+                                        "type": "string",
+                                        "description": "start date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-10 "
+                                    },
+                                    "regCloseDate": {
+                                        "type": "string",
+                                        "description": "start date",
+                                        "format": "date",
+                                        "pattern": "[0-9]{4})-(?:[0-9]{2})-([0-9]{2}",
+                                        "example": "2020-11-15 "
+                                    },
+                                    "noOfAttendies": {
+                                        "type": "integer",
+                                        "description": "no of students"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "new  trainer created successfully"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/login": {
+            "post": {
+                "tags": ["Trainers"],
+                "summary": "create new trainer in system",
+
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "sapana.vyavahare@happiestminds.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "S@pana12"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "responses": {
+                "UnauthorizedError": {
+                    "description": "API key is missing or invalid",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        }
+    }
+}
